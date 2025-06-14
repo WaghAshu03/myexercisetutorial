@@ -4,14 +4,183 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Exercise Tutorial</title>
+    <style>
+      body {
+        margin: 1rem;
+        background-color: #111;
+        color: #fff;
+        font-family: sans-serif;
+      }
+
+      * {
+        /* outline: 1px dotted red; */
+      }
+
+      #exercises-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+      }
+
+      li {
+        margin: 0.5rem 0;
+        cursor: pointer;
+      }
+
+      #video-container {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        width: 100vw;
+        width: 100svw;
+
+        height: 100vh;
+        height: 100svh;
+      }
+
+      #video-container #video-bg-blur {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        backdrop-filter: blur(5px);
+        /* background-color: red; */
+        cursor: pointer;
+        z-index: 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: xx-large;
+        font-weight: bold;
+      }
+
+      #video-container #video-frame {
+        z-index: 1;
+        /* background-color: red; */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      iframe {
+        width: 80vw;
+        width: 80svw;
+
+        height: 80vh;
+        height: 80svh;
+        /* aspect-ratio: 16/9; */
+        /* max-width: 90vh;
+        max-height: 90vh; */
+        /* background-color: black; */
+      }
+    </style>
   </head>
   <body>
-    <h1>Sample Templates</h1>
-    <div>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga minima
-      veniam numquam dolor cumque magnam. Dolorum, consequuntur tempora!
-      Perspiciatis ipsam maxime deleniti sed dolor facilis repellendus ab illum
-      incidunt commodi.
+    <div id="exercises-container"></div>
+
+    <div id="video-container">
+      <div id="video-bg-blur">Loading</div>
+      <div id="video-frame">TEMP</div>
     </div>
+
+    <script>
+      /*
+        exercises = {
+            exerciseType: {
+                exerciseName: YT_ID
+            }
+        }
+      */
+
+      const exercises = {
+        "🔄 Warm Up": {
+          "Jumping jacks (or march in place if low-impact)": "yg3KQQn3QWg",
+          "High knees (or knee lifts)": "0X0Q8wKLEfo",
+          "Arm circles": "xBl8xP1z8WA",
+          "Hip circles": "qkrJXGVj_OQ",
+          "Cat-Cow stretch": "LIVJZZyZ2qM",
+        },
+        "💪 Main Circuit (Repeat 3 - 4 Rounds)": {
+          "Jump Squats": "5xv0DKqe5XQ",
+          "Push-Ups": "yQEx9OC2C3E",
+          "Mountain Climbers": "9yyKVy8OWnA",
+          "Bird-Dog": "_1j_HWknGLg",
+          Lunges: "BYe4uyGF-h4",
+          "Pike Push-Ups": "D_Ed8Ltoomc",
+          Burpees: "xQdyIrSSFnE",
+          "Wall Sit (hold)": "mDdLC-yKudY",
+          "Dead Bug (for abs)": "DqLL45uk2Tk",
+          "Bicycle Crunches (for abs)": "eeJ_CYqSoT4",
+          "Glute Bridges": "2-47T-U82KU",
+          "Glute Bridge March (for abs)": "msfdrPWJ-9o",
+          "Plank (for abs)": "v25dawSzRTM",
+          "Side Plank (for abs)": "9dNL_mtObGQ",
+        },
+        "🧘‍♀️ Back-Friendly Cool Down (5 mins)": {
+          "Child's pose (1 min)": "FMDEYnDdvPg",
+          "Cobra stretch or Sphinx pose (gentler)": "JDcdhTuycOI",
+          "Knee-to-chest stretch": "Yd9wY25koVk",
+          "Supine twist": "TeAhhVD2q1c",
+          "Seated forward fold (optional with bent knees)": "5njnlgYYdD4",
+          "Deep breathing (lying flat)": "",
+        },
+        "💻 5-Minute Mini Exercise Breaks (Desk Job - Friendly)": {
+          "Neck rolls & shoulder shrugs": "",
+          "Standing march or spot jog": "",
+          "Wall push-ups": "",
+          "Chair squats": "",
+          "Cat-Cow seated or standing backbend": "",
+        },
+      };
+
+      document.getElementById("video-bg-blur").onclick = (e) => {
+        // console.log(e.currentTarget, e.target);
+        document.getElementById("video-container").style.display = "none";
+      };
+
+      const exercisesContainer = document.getElementById("exercises-container");
+      //   const videoContainer =
+
+      Object.keys(exercises).forEach((exerciseType) => {
+        const exerciseTypeContainer = document.createElement("div");
+        exerciseTypeContainer.classList.add("exercise-type");
+
+        const exerciseTypeHeading = document.createElement("h2");
+        exerciseTypeHeading.innerText = exerciseType;
+        exerciseTypeContainer.appendChild(exerciseTypeHeading);
+
+        const exercisesList = document.createElement("ul");
+
+        Object.keys(exercises[exerciseType]).forEach((exerciseName) => {
+          const ytID = exercises[exerciseType][exerciseName];
+          const singleExercise = document.createElement("li");
+          singleExercise.innerHTML = `${exerciseName}`;
+
+          singleExercise.onclick = () => {
+            document.getElementById("video-container").style.display = "grid";
+
+            document.getElementById("video-frame").innerHTML = `<iframe
+                    src="https://www.youtube.com/embed/${ytID}"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                />`;
+          };
+
+          exercisesList.appendChild(singleExercise);
+        });
+
+        exerciseTypeContainer.appendChild(exercisesList);
+
+        exercisesContainer.appendChild(exerciseTypeContainer);
+      });
+    </script>
   </body>
 </html>
